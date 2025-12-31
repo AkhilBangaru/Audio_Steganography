@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Sonata | Secure Audio Steganography</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Share+Tech+Mono&display=swap');
+
+        :root {
+            --neon-cyan: #00f3ff;
+            --neon-blue: #0066ff;
+            --neon-pink: #ff00ff;
+            --glass-bg: rgba(20, 20, 30, 0.6);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --text-color: #e0e0e0;
+            --input-bg: rgba(0, 0, 0, 0.4);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            scrollbar-width: thin;
+            scrollbar-color: var(--neon-cyan) #111;
+        }
+
+        body {
+            font-family: 'Share Tech Mono', monospace;
+            background-color: #050510;
+            color: var(--text-color);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Animated Background Mesh */
+        body::before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background:
+                radial-gradient(circle at 50% 50%, rgba(0, 243, 255, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 0, 255, 0.05) 0%, transparent 30%);
+            background-size: 100% 100%;
+            animation: rotateBG 30s linear infinite;
+            z-index: -2;
+        }
+
+        /* Grid Overlay */
+        body::after {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image:
+                linear-gradient(rgba(0, 243, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 243, 255, 0.03) 1px, transparent 1px);
+            background-size: 30px 30px;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        @keyframes rotateBG {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 4rem;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            color: #fff;
+            text-shadow:
+                0 0 10px var(--neon-cyan),
+                0 0 20px var(--neon-cyan);
+            margin-bottom: 0.5rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: var(--neon-cyan);
+            letter-spacing: 2px;
+            margin-bottom: 3rem;
+            text-transform: uppercase;
+            opacity: 0.8;
+            z-index: 10;
+            text-align: center;
+        }
+
+        @keyframes neonPulse {
+            0% {
+                text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 20px #00f3ff, 0 0 30px #00f3ff;
+                opacity: 0.8;
+            }
+
+            50% {
+                text-shadow: 0 0 2px #fff, 0 0 5px #fff, 0 0 10px #00f3ff, 0 0 15px #00f3ff;
+                opacity: 1;
+            }
+
+            100% {
+                text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 20px #00f3ff, 0 0 30px #00f3ff;
+                opacity: 0.8;
+            }
+        }
+
+        .author-name {
+            display: block;
+            margin-top: 5px;
+            font-size: 0.7em;
+            letter-spacing: 2px;
+            color: #fff;
+            animation: neonPulse 3s infinite alternate;
+            text-align: center;
+            width: 100%;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            padding: 2rem;
+            z-index: 10;
+        }
+
+        /* Premium Glass Card */
+        .card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 16px;
+            padding: 2.5rem;
+            box-shadow:
+                0 0 20px rgba(0, 0, 0, 0.4),
+                inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            transform: translateY(-5px) scale(1.01);
+            box-shadow:
+                0 15px 35px rgba(0, 0, 0, 0.5),
+                0 0 30px rgba(0, 243, 255, 0.1);
+            border-color: rgba(0, 243, 255, 0.3);
+        }
+
+        /* Card Corner Accents */
+        .card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 30px;
+            height: 30px;
+            border-top: 2px solid var(--neon-cyan);
+            border-left: 2px solid var(--neon-cyan);
+            border-radius: 16px 0 0 0;
+            opacity: 0.5;
+            transition: opacity 0.3s;
+        }
+
+        .card::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 30px;
+            height: 30px;
+            border-bottom: 2px solid var(--neon-cyan);
+            border-right: 2px solid var(--neon-cyan);
+            border-radius: 0 0 16px 0;
+            opacity: 0.5;
+            transition: opacity 0.3s;
+        }
+
+        .card:hover::before,
+        .card:hover::after {
+            opacity: 1;
+        }
+
+        h2 {
+            font-family: 'Orbitron', sans-serif;
+            color: #fff;
+            margin-bottom: 2rem;
+            font-size: 1.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        h2::before {
+            content: "//";
+            color: var(--neon-cyan);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.8rem;
+            color: var(--neon-cyan);
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        input,
+        textarea,
+        select {
+            width: 100%;
+            background: var(--input-bg);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            color: #fff;
+            font-family: 'Share Tech Mono', monospace;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        input:focus,
+        textarea:focus {
+            outline: none;
+            border-color: var(--neon-cyan);
+            box-shadow: 0 0 15px rgba(0, 243, 255, 0.2);
+            background: rgba(0, 0, 0, 0.6);
+        }
+
+        button {
+            width: 100%;
+            padding: 1rem;
+            background: transparent;
+            border: 1px solid var(--neon-cyan);
+            color: var(--neon-cyan);
+            font-family: 'Orbitron', sans-serif;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s;
+            margin-top: 1rem;
+            border-radius: 4px;
+        }
+
+        button::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 243, 255, 0.4), transparent);
+            transition: left 0.5s;
+        }
+
+        button:hover::before {
+            left: 100%;
+        }
+
+        button:hover {
+            background: rgba(0, 243, 255, 0.1);
+            box-shadow: 0 0 20px rgba(0, 243, 255, 0.4);
+            text-shadow: 0 0 5px var(--neon-cyan);
+        }
+
+        /* Result Box */
+        .result-box {
+            grid-column: 1 / -1;
+            background: rgba(0, 20, 0, 0.6);
+            border: 1px solid #0f0;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            position: relative;
+            box-shadow: 0 0 15px rgba(0, 255, 0, 0.2);
+        }
+
+        .result-box h3 {
+            color: #0f0;
+            margin-bottom: 1rem;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .decoded-text {
+            color: #fff;
+            font-size: 1.1rem;
+            white-space: pre-wrap;
+            line-height: 1.6;
+        }
+
+        /* Toggle Button Styling */
+        .toggle-group {
+            display: flex;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+            padding: 4px;
+            margin-bottom: 2rem;
+        }
+
+        .toggle-option {
+            flex: 1;
+        }
+
+        .toggle-option input {
+            display: none;
+        }
+
+        .toggle-option label {
+            display: block;
+            text-align: center;
+            padding: 10px;
+            cursor: pointer;
+            border-radius: 6px;
+            color: #888;
+            transition: all 0.3s;
+        }
+
+        .toggle-option input:checked+label {
+            background: rgba(0, 243, 255, 0.15);
+            color: var(--neon-cyan);
+            box-shadow: 0 0 10px rgba(0, 243, 255, 0.1);
+            text-shadow: 0 0 5px var(--neon-cyan);
+        }
+
+        .flash-messages {
+            width: 90%;
+            max-width: 1200px;
+            margin-bottom: 1rem;
+        }
+
+        .flash {
+            padding: 1rem;
+            background: rgba(255, 0, 0, 0.15);
+            border-left: 4px solid #f00;
+            color: #ffcccc;
+            margin-bottom: 10px;
+            border-radius: 4px;
+            backdrop-filter: blur(5px);
+        }
+
+        /* Custom File Input */
+        input[type="file"]::file-selector-button {
+            background: rgba(0, 243, 255, 0.1);
+            border: 1px solid var(--neon-cyan);
+            color: var(--neon-cyan);
+            padding: 5px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-right: 15px;
+            font-family: 'Share Tech Mono', monospace;
+            transition: all 0.3s;
+        }
+
+        input[type="file"]::file-selector-button:hover {
+            background: var(--neon-cyan);
+            color: #000;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Sonata</h1>
+    <div class="subtitle">
+        Secure Audio Steganography Tool<br>
+        <span class="author-name">By Akhil Bangaru</span>
+    </div>
+
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <div class="flash-messages">
+        {% for message in messages %}
+        <div class="flash">> SYSTEM_ALERT: {{ message }}</div>
+        {% endfor %}
+    </div>
+    {% endif %}
+    {% endwith %}
+
+    <div class="container">
+
+        {% if decoded_text %}
+        <div class="result-box">
+            <h3>> DECRYPTION SUCCESSFUL</h3>
+            <div class="decoded-text">{{ decoded_text }}</div>
+        </div>
+        {% endif %}
+
+        <div class="card">
+            <h2>ENCODE DATA</h2>
+            <form action="/encode" method="POST" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label>01 // TARGET AUDIO FILE (.WAV)</label>
+                    <input type="file" name="audio_file" accept=".wav" required>
+                </div>
+
+                <div class="form-group">
+                    <label>02 // DATA TYPE</label>
+                    <div class="toggle-group">
+                        <div class="toggle-option">
+                            <input type="radio" id="t-text" name="payload_type" value="text" checked
+                                onclick="toggleMode('text')">
+                            <label for="t-text">TEXT STRING</label>
+                        </div>
+                        <div class="toggle-option">
+                            <input type="radio" id="t-file" name="payload_type" value="file"
+                                onclick="toggleMode('file')">
+                            <label for="t-file">BINARY FILE</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="text-mode" class="form-group">
+                    <label>03 // PAYLOAD CONTENT</label>
+                    <textarea name="text_payload" rows="4" placeholder="Enter confidential message..."></textarea>
+                </div>
+
+                <div id="file-mode" class="form-group" style="display: none;">
+                    <label>03 // PAYLOAD FILE</label>
+                    <input type="file" name="file_payload">
+                </div>
+
+                <div class="form-group">
+                    <label>04 // ENCRYPTION KEY</label>
+                    <input type="password" name="password" placeholder="••••••••••••••" required>
+                </div>
+
+                <button type="submit">INITIALIZE INJECTION</button>
+            </form>
+        </div>
+
+        <div class="card">
+            <h2>DECODE DATA</h2>
+            <form action="/decode" method="POST" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label>01 // SOURCE AUDIO FILE (.WAV)</label>
+                    <input type="file" name="audio_file" accept=".wav" required>
+                </div>
+
+                <div class="form-group">
+                    <label>02 // DECRYPTION KEY</label>
+                    <input type="password" name="password" placeholder="••••••••••••••" required>
+                </div>
+
+                <div class="form-group" style="opacity: 0.5; margin-top: 2rem;">
+                    <label>STATUS DIAGNOSTICS</label>
+                    <div style="display: flex; gap: 10px; font-size: 0.8rem; color: #666;">
+                        <span style="color: #0f0;">● SYSTEM READY</span>
+                        <span>● WAITING FOR INPUT</span>
+                    </div>
+                </div>
+
+                <button type="submit" style="margin-top: 3.5rem;">EXTRACT PAYLOAD</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function toggleMode(mode) {
+            if (mode === 'text') {
+                document.getElementById('text-mode').style.display = 'block';
+                document.getElementById('file-mode').style.display = 'none';
+            } else {
+                document.getElementById('text-mode').style.display = 'none';
+                document.getElementById('file-mode').style.display = 'block';
+            }
+        }
+    </script>
+</body>
+
+</html>
