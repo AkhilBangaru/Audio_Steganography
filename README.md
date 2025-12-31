@@ -83,7 +83,7 @@ No external steganography tools required.
 ├── steg_engine.py    # Core steganography + crypto engine
 ├── templates/
 │   └── index.html    # Web UI
-└── assets/           # Documentation assets
+└── assets/           # Web page screenshot,Sample wave file
 ```
 
 ---
