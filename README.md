@@ -161,3 +161,7 @@ Cybersecurity • Applied Cryptography • Offensive & Defensive Research
 * Payload integrity signatures
 * Capacity estimation UI
 * Dockerized deployment
+## 👤 Author
+
+AkhilBangaru
+
