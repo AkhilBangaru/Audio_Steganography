@@ -90,7 +90,7 @@ No external steganography tools required.
 
 ## ⚙️ Installation
 
-```bash
+```
 git clone https://github.com/AkhilBangaru/Audio_Steganography.git
 cd Audio_Steganography
 pip install flask cryptography
