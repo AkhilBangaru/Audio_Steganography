@@ -1,6 +1,6 @@
 <img width="2048" height="2048" alt="Logo" src="https://github.com/user-attachments/assets/ef1760bd-c64c-40d2-bfb5-27c6e136dcc3" />
 
-## 🔐 Audio Steganography Web Tool
+##  Audio Steganography Web Tool
 
 A secure, password-protected **audio steganography web application** that allows you to hide **text or files inside WAV audio** using **LSB steganography + encryption**.
 
@@ -8,21 +8,21 @@ Built with **Flask** and a custom **StegEngine**, this project focuses on **corr
 
 ---
 
-## 🎯 What This Project Does
+##  What This Project Does
 
 This tool allows you to:
 
-* 🎵 Hide **text or files** inside `.wav` audio files
-* 🔑 Protect hidden data using **password-based encryption**
-* 📦 Compress + encrypt payloads before embedding
-* 🔍 Safely extract hidden content using the correct password
-* 🌐 Use everything via a **simple web interface**
+*  Hide **text or files** inside `.wav` audio files
+*  Protect hidden data using **password-based encryption**
+*  Compress + encrypt payloads before embedding
+*  Safely extract hidden content using the correct password
+*  Use everything via a **simple web interface**
 
 No external steganography tools required.
 
 ---
 
-## 🧠 How It Works (High Level)
+##  How It Works (High Level)
 
 1. **Payload Preparation**
 
@@ -53,19 +53,19 @@ No external steganography tools required.
 
 ---
 
-## ✨ Features
+##  Features
 
-* 🔐 Strong password-based encryption
-* 📉 Compression before embedding (efficient space usage)
-* 🎧 WAV-safe LSB embedding (no header corruption)
-* 🧪 Corruption & wrong-password detection
-* 🌐 Flask-based web UI
-* 📂 Supports text **and** file payloads
-* 🚫 Rejects unsupported or unsafe files
+*  Strong password-based encryption
+*  Compression before embedding (efficient space usage)
+*  WAV-safe LSB embedding (no header corruption)
+*  Corruption & wrong-password detection
+*  Flask-based web UI
+*  Supports text **and** file payloads
+*  Rejects unsupported or unsafe files
 
 ---
 
-## 🧰 Tech Stack
+##  Tech Stack
 
 * **Backend:** Python, Flask
 * **Crypto:** `cryptography` (Fernet, PBKDF2HMAC)
@@ -75,7 +75,7 @@ No external steganography tools required.
 
 ---
 
-## 📁 Project Structure
+##  Project Structure
 
 ```
 .
@@ -88,7 +88,7 @@ No external steganography tools required.
 
 ---
 
-## ⚙️ Installation
+##  Installation
 
 ```
 git clone https://github.com/AkhilBangaru/Audio_Steganography.git
@@ -105,7 +105,7 @@ http://127.0.0.1:5000
 
 ---
 
-## 🚀 Usage
+##  Usage
 
 ### Encode
 
@@ -124,7 +124,7 @@ http://127.0.0.1:5000
 
 ---
 
-## ⚠️ Limitations
+##  Limitations
 
 * Only **WAV** audio is supported
 * Audio must be large enough to hold payload
@@ -133,18 +133,18 @@ http://127.0.0.1:5000
 
 ---
 
-## 🧪 Intended Use
+##  Intended Use
 
 * Learning steganography concepts
 * Security research
 * Academic projects
 * Controlled lab environments
 
-> ❗ Use responsibly. Do not use for unauthorized data hiding.
+>  Use responsibly. Do not use for unauthorized data hiding.
 
 ---
 
-## 👤 Author
+##  Author
 
 **Akhil Bangaru**
 Cybersecurity • Applied Cryptography • Offensive & Defensive Research
@@ -155,13 +155,13 @@ Cybersecurity • Applied Cryptography • Offensive & Defensive Research
 <img width="1171" height="1208" alt="image" src="https://github.com/user-attachments/assets/c33a66bb-fc6f-497f-919f-85d9ad2f96f4" />
 
 
-## 🛣️ Possible Improvements
+##  Possible Improvements
 
 * Streaming-safe embedding
 * Payload integrity signatures
 * Capacity estimation UI
 * Dockerized deployment
-## 👤 Author
+##  Author
 
 AkhilBangaru
 
